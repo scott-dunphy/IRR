@@ -50,7 +50,7 @@ st.title('Apartment Investment IRR Calculator')
 
 # Sidebar with sliders for each input parameter
 st.sidebar.header('Input Parameters')
-unit_count = st.sidebar.slider('Unit Count', min_value=1, max_value=100, value=10, step=1)
+unit_count = st.sidebar.number_input('Unit Count', min_value=1, max_value=1000, value=100, step=1)
 purchase_price = st.sidebar.slider('Purchase Price', min_value=100000, max_value=10000000, value=500000, step=10000)
 market_rent_per_unit = st.sidebar.slider('Market Rent per Unit', min_value=500, max_value=5000, value=1000, step=50)
 rent_growth_per_year = st.sidebar.slider('Rent Growth per Year (%)', min_value=0.0, max_value=10.0, value=3.0, step=0.1) / 100
