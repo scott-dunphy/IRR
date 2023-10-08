@@ -157,7 +157,9 @@ data = {
 }
 df = pd.DataFrame(data)
 
-# Convert DataFrame to HTML and display using st.markdown
-st.markdown(df.to_html(index=False), unsafe_allow_html=True)
+# Reset index and select columns to display
+df_reset_index = df.reset_index()
+columns_to_display = ['Metric', 'Value']
+st.dataframe(df_reset_index[columns_to_display])
 
 
