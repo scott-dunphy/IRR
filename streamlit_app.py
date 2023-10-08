@@ -73,13 +73,19 @@ class ApartmentInvestment:
         # Step 9: Calculate IRR
         irr = npf.irr(net_cash_flow)
         
-        # Additional calculations
+        # Unlevered calculations
         total_contributions = np.sum(net_cash_flow[net_cash_flow < 0])  # Sum of all negative cash flows (cash outflows)
         total_distributions = np.sum(net_cash_flow[net_cash_flow > 0])  # Sum of all positive cash flows (cash inflows)
         total_profit = total_distributions + total_contributions  # Total profit (or loss if negative)
         investment_multiple = total_distributions / abs(total_contributions)  # Total distributions divided by total contributions
+
+        # Levered calculations
+        levered_contributions = np.sum(final_cash_flows[net_cash_flow < 0])  # Sum of all negative cash flows (cash outflows)
+        levered_distributions = np.sum(final_cash_flows[net_cash_flow > 0])  # Sum of all positive cash flows (cash inflows)
+        levered_profit = levered_distributions + levered_contributions  # Total profit (or loss if negative)
+        levered_multiple = levered_distributions / abs(levered_contributions)  # Total distributions divided by total contributions
         
-        return irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, debt_service
+        return irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, levered_contributions, levered_distributions, levered_profit, levered_multiple
 
     def calculate_debt_service(self):
             # Step 1: Calculate loan balance
@@ -148,12 +154,26 @@ investment = ApartmentInvestment(unit_count, purchase_price, market_rent_per_uni
                                 )
 
 # Calculate IRR and other metrics, then display results
-investment_irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, debt_service = investment.calculate_irr()
+investment_irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, levered_contributions, levered_distributions, levered_profit, levered_multiple = investment.calculate_irr()
 
 # Create a DataFrame
+st.subheader("Unlevered Metrics")
 data = {
-    'Metric': ['Unlevered IRR', 'Levered IRR', 'Total Contributions', 'Total Distributions', 'Total Profit', 'Investment Multiple'],
-    'Value': [f"{investment_irr * 100:.2f}%", f"{levered_irr * 100:.2f}%", f"${total_contributions:,.2f}", f"${total_distributions:,.2f}", f"${total_profit:,.2f}", f"{investment_multiple:.2f}x"]
+    'Metric': ['Unlevered IRR', 'Total Contributions', 'Total Distributions', 'Total Profit', 'Investment Multiple'],
+    'Value': [f"{investment_irr * 100:.2f}%", f"${total_contributions:,.2f}", f"${total_distributions:,.2f}", f"${total_profit:,.2f}", f"{investment_multiple:.2f}x"]
+}
+df = pd.DataFrame(data)
+
+# Reset index and select columns to display
+df_reset_index = df.reset_index()
+columns_to_display = ['Metric', 'Value']
+st.dataframe(df_reset_index[columns_to_display])
+
+# Create a DataFrame
+st.subheader("Levered Metrics")
+data = {
+    'Metric': ['Levered IRR', 'Levered Contributions', 'Levered Distributions', 'Levered Profit', 'Levered Investment Multiple'],
+    'Value': [f"{levered_irr * 100:.2f}%", f"${levered_contributions:,.2f}", f"${levered_distributions:,.2f}", f"${levered_profit:,.2f}", f"{levered_multiple:.2f}x"]
 }
 df = pd.DataFrame(data)
 
