@@ -51,13 +51,13 @@ st.title('Apartment Investment IRR Calculator')
 # Sidebar with sliders for each input parameter
 st.sidebar.header('Input Parameters')
 unit_count = st.sidebar.number_input('Unit Count', min_value=1, max_value=1000, value=100, step=1)
-purchase_price = st.sidebar.slider('Purchase Price', min_value=100000, max_value=10000000, value=500000, step=10000)
-market_rent_per_unit = st.sidebar.slider('Market Rent per Unit', min_value=500, max_value=5000, value=1000, step=50)
-rent_growth_per_year = st.sidebar.slider('Rent Growth per Year (%)', min_value=0.0, max_value=10.0, value=3.0, step=0.1) / 100
-year_1_expense_ratio = st.sidebar.slider('Year 1 Expense Ratio (%)', min_value=0.0, max_value=100.0, value=50.0, step=0.1) / 100
-expense_growth_per_year = st.sidebar.slider('Expense Growth per Year (%)', min_value=0.0, max_value=10.0, value=2.0, step=0.1) / 100
-capex_per_unit = st.sidebar.slider('CAPEX per Unit', min_value=100, max_value=10000, value=500, step=100)
-exit_cap_rate = st.sidebar.slider('Exit Cap Rate (%)', min_value=1.0, max_value=10.0, value=5.0, step=0.1) / 100
+purchase_price = st.sidebar.slider('Purchase Price', min_value=10000000, max_value=100000000, value=25000000, step=1000000)
+market_rent_per_unit = st.sidebar.slider('Market Rent per Unit', min_value=500, max_value=5000, value=2500, step=50)
+rent_growth_per_year = st.sidebar.slider('Rent Growth per Year (%)', min_value=0.0, max_value=10.0, value=3.0, step=0.25) / 100
+year_1_expense_ratio = st.sidebar.slider('Year 1 Expense Ratio (%)', min_value=0.0, max_value=100.0, value=50.0, step=0.25) / 100
+expense_growth_per_year = st.sidebar.slider('Expense Growth per Year (%)', min_value=0.0, max_value=10.0, value=2.0, step=0.25) / 100
+capex_per_unit = st.sidebar.slider('CAPEX per Unit', min_value=100, max_value=10000, value=250, step=100)
+exit_cap_rate = st.sidebar.slider('Exit Cap Rate (%)', min_value=1.0, max_value=10.0, value=5.0, step=0.25) / 100
 
 # Create instance of ApartmentInvestment class with input parameters
 investment = ApartmentInvestment(unit_count, purchase_price, market_rent_per_unit, rent_growth_per_year,
