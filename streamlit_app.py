@@ -105,7 +105,7 @@ class ApartmentInvestment:
                     debt_service[year] = beginning_loan_balance[year] * self.interest_rate
                 else:
                     # Amortizing payment calculation using the PMT formula
-                    debt_service[year] = npf.pmt(self.interest_rate, self.term, -beginning_loan_balance[year])
+                    debt_service[year] = npf.pmt(self.interest_rate, self.term, -loan_balance_initial, 0)
                 
                 # Step 6: Calculate interest expense
                 interest_expense[year] = beginning_loan_balance[year] * self.interest_rate
