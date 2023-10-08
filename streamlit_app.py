@@ -4,7 +4,8 @@ import streamlit as st
 
 class ApartmentInvestment:
     def __init__(self, unit_count, purchase_price, market_rent_per_unit, rent_growth_per_year, 
-                 year_1_expense_ratio, expense_growth_per_year, capex_per_unit, exit_cap_rate):
+                 year_1_expense_ratio, expense_growth_per_year, capex_per_unit, exit_cap_rate,
+                 loan_to_value, interest_rate, term, flag_io):
         self.unit_count = unit_count
         self.purchase_price = purchase_price
         self.market_rent_per_unit = market_rent_per_unit
@@ -13,6 +14,10 @@ class ApartmentInvestment:
         self.expense_growth_per_year = expense_growth_per_year
         self.capex_per_unit = capex_per_unit
         self.exit_cap_rate = exit_cap_rate
+        self.loan_to_value = loan_to_value
+        self.interest_rate = interest_rate
+        self.term = term
+        self.flag_io = flag_io
     
     def calculate_irr(self):
         # Define variables and arrays to store calculations
@@ -53,6 +58,44 @@ class ApartmentInvestment:
         
         return irr, total_contributions, total_distributions, total_profit, investment_multiple
 
+    def calculate_debt_service(self):
+            # Step 1: Calculate loan balance
+            loan_balance_initial = self.purchase_price * self.loan_to_value
+            
+            # Initialize lists to store calculations
+            beginning_loan_balance = np.zeros(11)
+            interest_expense = np.zeros(11)
+            principal_payments = np.zeros(11)
+            debt_service = np.zeros(11)
+            ending_loan_balance = np.zeros(11)
+            
+            # Step 3: Set Year 0 beginning and ending loan balance
+            beginning_loan_balance[0] = loan_balance_initial
+            ending_loan_balance[0] = loan_balance_initial
+            
+            # Calculate debt service for each year
+            for year in range(1, 11):
+                # Step 4: Set beginning loan balance for the year
+                beginning_loan_balance[year] = ending_loan_balance[year - 1]
+                
+                # Step 5: Calculate debt service
+                if self.flag_io == 1:
+                    debt_service[year] = beginning_loan_balance[year] * self.interest_rate
+                else:
+                    # Amortizing payment calculation using the PMT formula
+                    debt_service[year] = npf.pmt(self.interest_rate, self.term, -beginning_loan_balance[year])
+                
+                # Step 6: Calculate interest expense
+                interest_expense[year] = beginning_loan_balance[year] * self.interest_rate
+                
+                # Step 7: Calculate principal payments
+                principal_payments[year] = debt_service[year] - interest_expense[year]
+                
+                # Step 8: Calculate ending loan balance
+                ending_loan_balance[year] = beginning_loan_balance[year] - principal_payments[year]
+            
+            return beginning_loan_balance, interest_expense, principal_payments, debt_service, ending_loan_balance
+
 
 st.title('Apartment Investment IRR Calculator')
 
@@ -67,10 +110,19 @@ with st.sidebar.expander("Investment Inputs"):
     capex_per_unit = st.slider('CAPEX per Unit', min_value=100, max_value=1000, value=250, step=50)
     exit_cap_rate = st.slider('Exit Cap Rate (%)', min_value=1.0, max_value=10.0, value=5.0, step=0.25) / 100
 
+with st.sidebar.expander("Debt Inputs"):
+    loan_to_value = st.slider('Loan to Value Ratio (%)', min_value=0.0, max_value=80.0, value=55.0, step=5.0) / 100
+    interest_rate = st.slider('Interest Rate (%)', min_value=0.0, max_value=10.0, value=6.25, step=0.25) / 100
+    term = st.slider('Loan Term (Years)', min_value=1, max_value=30, value=30, step=1)
+    flag_io = st.selectbox('Interest Only Period?', [0, 1])
+
+
 
 # Create instance of ApartmentInvestment class with input parameters
 investment = ApartmentInvestment(unit_count, purchase_price, market_rent_per_unit, rent_growth_per_year,
-                                year_1_expense_ratio, expense_growth_per_year, capex_per_unit, exit_cap_rate)
+                                year_1_expense_ratio, expense_growth_per_year, capex_per_unit, exit_cap_rate,
+                                loan_to_value, interest_rate, term, flag_io
+                                )
 
 # Calculate IRR and other metrics, then display results
 investment_irr, total_contributions, total_distributions, total_profit, investment_multiple = investment.calculate_irr()
