@@ -53,7 +53,7 @@ class ApartmentInvestment:
         beginning_balance, _, _, debt_service, ending_balance = self.calculate_debt_service()
 
         # Adjust Net Cash Flow for Debt Service from Year 1 to Year 10
-        ncf_after_debt = net_cash_flow[1:11] -= debt_service[1:11]
+        ncf_after_debt[1:11] = net_cash_flow[1:11] -= debt_service[1:11]
     
         # Add beginning debt balance from Year 0 as positive cash inflow
         final_cash_flows[0] = ncf_after_debt[0] + beginning_balance[0]
