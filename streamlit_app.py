@@ -21,7 +21,7 @@ class ApartmentInvestment:
         capex = np.zeros(12)
         net_operating_income = np.zeros(12)
         net_cash_flow = np.zeros(11)
-
+    
         # Step 1: Year 1 Revenue
         revenue[1] = self.market_rent_per_unit * self.unit_count * 12
         # Step 2: Year 1 Expenses
@@ -44,7 +44,15 @@ class ApartmentInvestment:
         net_cash_flow[10] = net_operating_income[10] - capex[10] + reversion_value
         # Step 9: Calculate IRR
         irr = npf.irr(net_cash_flow)
-        return irr
+        
+        # Additional calculations
+        total_contributions = np.sum(net_cash_flow[net_cash_flow < 0])  # Sum of all negative cash flows (cash outflows)
+        total_distributions = np.sum(net_cash_flow[net_cash_flow > 0])  # Sum of all positive cash flows (cash inflows)
+        total_profit = total_distributions + total_contributions  # Total profit (or loss if negative)
+        investment_multiple = total_distributions / abs(total_contributions)  # Total distributions divided by total contributions
+        
+        return irr, total_contributions, total_distributions, total_profit, investment_multiple
+
 
 st.title('Apartment Investment IRR Calculator')
 
@@ -64,6 +72,12 @@ with st.sidebar.expander("Investment Inputs"):
 investment = ApartmentInvestment(unit_count, purchase_price, market_rent_per_unit, rent_growth_per_year,
                                 year_1_expense_ratio, expense_growth_per_year, capex_per_unit, exit_cap_rate)
 
-# Calculate IRR and display result
-investment_irr = investment.calculate_irr()
-st.header(f'The calculated IRR is: {investment_irr * 100:.2f}%')
+# Calculate IRR and other metrics, then display results
+investment_irr, total_contributions, total_distributions, total_profit, investment_multiple = investment.calculate_irr()
+
+st.subheader(f'The calculated IRR is: {investment_irr * 100:.2f}%')
+st.subheader(f'Total Contributions (Cash Outflows): ${total_contributions:,.2f}')
+st.subheader(f'Total Distributions (Cash Inflows): ${total_distributions:,.2f}')
+st.subheader(f'Total Profit: ${total_profit:,.2f}')
+st.subheader(f'Investment Multiple: {investment_multiple:.2f}x')
+
