@@ -155,5 +155,5 @@ st.subheader(f'Total Contributions (Cash Outflows): ${total_contributions:,.2f}'
 st.subheader(f'Total Distributions (Cash Inflows): ${total_distributions:,.2f}')
 st.subheader(f'Total Profit: ${total_profit:,.2f}')
 st.subheader(f'Investment Multiple: {investment_multiple:.2f}x')
-st.subheader(f'Debt Service: {debt_service})
+st.subheader(f'Debt Service: {debt_service}')
 
