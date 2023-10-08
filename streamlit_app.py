@@ -1,6 +1,7 @@
 import numpy as np
 import numpy_financial as npf
 import streamlit as st
+import pandas as pd
 
 class ApartmentInvestment:
     def __init__(self, unit_count, purchase_price, market_rent_per_unit, rent_growth_per_year, 
@@ -149,11 +150,14 @@ investment = ApartmentInvestment(unit_count, purchase_price, market_rent_per_uni
 # Calculate IRR and other metrics, then display results
 investment_irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, debt_service = investment.calculate_irr()
 
-st.subheader(f'The calculated IRR is: {investment_irr * 100:.2f}%')
-st.subheader(f'The calculated Levered IRR is: {levered_irr * 100:.2f}%')
-st.subheader(f'Total Contributions (Cash Outflows): ${total_contributions:,.2f}')
-st.subheader(f'Total Distributions (Cash Inflows): ${total_distributions:,.2f}')
-st.subheader(f'Total Profit: ${total_profit:,.2f}')
-st.subheader(f'Investment Multiple: {investment_multiple:.2f}x')
+# Create a DataFrame
+data = {
+    'Metric': ['IRR', 'Leveraged IRR', 'Total Contributions (Cash Outflows)', 'Total Distributions (Cash Inflows)', 'Total Profit', 'Investment Multiple'],
+    'Value': [f"{investment_irr * 100:.2f}%", f"{levered_irr * 100:.2f}%", f"${total_contributions:,.2f}", f"${total_distributions:,.2f}", f"${total_profit:,.2f}", f"{investment_multiple:.2f}x"]
+}
+df = pd.DataFrame(data)
+
+# Display the DataFrame in Streamlit
+st.table(df)
 
 
