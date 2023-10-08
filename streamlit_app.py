@@ -26,6 +26,7 @@ class ApartmentInvestment:
         capex = np.zeros(12)
         net_operating_income = np.zeros(12)
         net_cash_flow = np.zeros(11)
+        final_cash_flows = np.zeros(11)
     
         # Step 1: Year 1 Revenue
         revenue[1] = self.market_rent_per_unit * self.unit_count * 12
@@ -47,6 +48,25 @@ class ApartmentInvestment:
         # Step 8: Add Reversion Value to Year 10 Cash Flow (calculated from Year 11 NOI)
         reversion_value = net_operating_income[11] / self.exit_cap_rate
         net_cash_flow[10] = net_operating_income[10] - capex[10] + reversion_value
+
+        # Calculate Debt Service
+        beginning_balance, _, _, debt_service, ending_balance = self.calculate_debt_service()
+
+        # Adjust Net Cash Flow for Debt Service from Year 1 to Year 10
+        net_cash_flow[1:11] -= debt_service[1:11]
+    
+        # Add beginning debt balance from Year 0 as positive cash inflow
+        final_cash_flows[0] = net_cash_flow[0] + beginning_balance[0]
+    
+        # Adjust Net Cash Flow for remaining years
+        final_cash_flows[1:10] = net_cash_flow[1:10]
+    
+        # Add ending debt balance from Year 10 as negative cash outflow
+        final_cash_flows[10] = net_cash_flow[10] - ending_balance[10]
+    
+        # Calculate Leveraged IRR based on final cash flows
+        levered_irr = npf.irr(final_cash_flows)
+    
         # Step 9: Calculate IRR
         irr = npf.irr(net_cash_flow)
         
@@ -56,7 +76,7 @@ class ApartmentInvestment:
         total_profit = total_distributions + total_contributions  # Total profit (or loss if negative)
         investment_multiple = total_distributions / abs(total_contributions)  # Total distributions divided by total contributions
         
-        return irr, total_contributions, total_distributions, total_profit, investment_multiple
+        return irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr
 
     def calculate_debt_service(self):
             # Step 1: Calculate loan balance
@@ -125,9 +145,10 @@ investment = ApartmentInvestment(unit_count, purchase_price, market_rent_per_uni
                                 )
 
 # Calculate IRR and other metrics, then display results
-investment_irr, total_contributions, total_distributions, total_profit, investment_multiple = investment.calculate_irr()
+investment_irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr = investment.calculate_irr()
 
 st.subheader(f'The calculated IRR is: {investment_irr * 100:.2f}%')
+st.subheader(f'The calculated Levered IRR is: {levered_irr * 100:.2f}%')
 st.subheader(f'Total Contributions (Cash Outflows): ${total_contributions:,.2f}')
 st.subheader(f'Total Distributions (Cash Inflows): ${total_distributions:,.2f}')
 st.subheader(f'Total Profit: ${total_profit:,.2f}')
