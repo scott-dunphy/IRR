@@ -53,16 +53,16 @@ class ApartmentInvestment:
         beginning_balance, _, _, debt_service, ending_balance = self.calculate_debt_service()
 
         # Adjust Net Cash Flow for Debt Service from Year 1 to Year 10
-        net_cash_flow[1:11] -= debt_service[1:11]
+        ncf_after_debt = net_cash_flow[1:11] -= debt_service[1:11]
     
         # Add beginning debt balance from Year 0 as positive cash inflow
-        final_cash_flows[0] = net_cash_flow[0] + beginning_balance[0]
+        final_cash_flows[0] = ncf_after_debt[0] + beginning_balance[0]
     
         # Adjust Net Cash Flow for remaining years
-        final_cash_flows[1:10] = net_cash_flow[1:10]
+        final_cash_flows[1:10] = ncf_after_debt[1:10]
     
         # Add ending debt balance from Year 10 as negative cash outflow
-        final_cash_flows[10] = net_cash_flow[10] - ending_balance[10]
+        final_cash_flows[10] = ncf_after_debt[10] - ending_balance[10]
     
         # Calculate Leveraged IRR based on final cash flows
         levered_irr = npf.irr(final_cash_flows)
