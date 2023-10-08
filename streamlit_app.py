@@ -78,7 +78,7 @@ class ApartmentInvestment:
         total_profit = total_distributions + total_contributions  # Total profit (or loss if negative)
         investment_multiple = total_distributions / abs(total_contributions)  # Total distributions divided by total contributions
         
-        return irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr
+        return irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, debt_service
 
     def calculate_debt_service(self):
             # Step 1: Calculate loan balance
@@ -147,7 +147,7 @@ investment = ApartmentInvestment(unit_count, purchase_price, market_rent_per_uni
                                 )
 
 # Calculate IRR and other metrics, then display results
-investment_irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr = investment.calculate_irr()
+investment_irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, debt_service = investment.calculate_irr()
 
 st.subheader(f'The calculated IRR is: {investment_irr * 100:.2f}%')
 st.subheader(f'The calculated Levered IRR is: {levered_irr * 100:.2f}%')
@@ -155,4 +155,5 @@ st.subheader(f'Total Contributions (Cash Outflows): ${total_contributions:,.2f}'
 st.subheader(f'Total Distributions (Cash Inflows): ${total_distributions:,.2f}')
 st.subheader(f'Total Profit: ${total_profit:,.2f}')
 st.subheader(f'Investment Multiple: {investment_multiple:.2f}x')
+st.subheader(f'Debt Service: {debt_service})
 
