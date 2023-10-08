@@ -56,7 +56,7 @@ market_rent_per_unit = st.sidebar.slider('Market Rent per Unit', min_value=500, 
 rent_growth_per_year = st.sidebar.slider('Rent Growth per Year (%)', min_value=0.0, max_value=10.0, value=3.0, step=0.25) / 100
 year_1_expense_ratio = st.sidebar.slider('Year 1 Expense Ratio (%)', min_value=0.0, max_value=100.0, value=50.0, step=1.0) / 100
 expense_growth_per_year = st.sidebar.slider('Expense Growth per Year (%)', min_value=0.0, max_value=10.0, value=2.0, step=0.25) / 100
-capex_per_unit = st.sidebar.slider('CAPEX per Unit', min_value=100, max_value=10000, value=250, step=100)
+capex_per_unit = st.sidebar.slider('CAPEX per Unit', min_value=100, max_value=1000, value=250, step=50)
 exit_cap_rate = st.sidebar.slider('Exit Cap Rate (%)', min_value=1.0, max_value=10.0, value=5.0, step=0.25) / 100
 
 # Create instance of ApartmentInvestment class with input parameters
