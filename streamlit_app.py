@@ -152,7 +152,7 @@ investment_irr, total_contributions, total_distributions, total_profit, investme
 
 # Create a DataFrame
 data = {
-    'Metric': ['IRR', 'Leveraged IRR', 'Total Contributions (Cash Outflows)', 'Total Distributions (Cash Inflows)', 'Total Profit', 'Investment Multiple'],
+    'Metric': ['Unlevered IRR', 'Levered IRR', 'Total Contributions', 'Total Distributions', 'Total Profit', 'Investment Multiple'],
     'Value': [f"{investment_irr * 100:.2f}%", f"{levered_irr * 100:.2f}%", f"${total_contributions:,.2f}", f"${total_distributions:,.2f}", f"${total_profit:,.2f}", f"{investment_multiple:.2f}x"]
 }
 df = pd.DataFrame(data)
