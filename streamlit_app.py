@@ -157,7 +157,7 @@ data = {
 }
 df = pd.DataFrame(data)
 
-# Display the DataFrame in Streamlit
-st.table(df)
+# Convert DataFrame to HTML and display using st.markdown
+st.markdown(df.to_html(index=False), unsafe_allow_html=True)
 
 
