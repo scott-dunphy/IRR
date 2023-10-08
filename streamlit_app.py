@@ -126,7 +126,7 @@ class ApartmentInvestment:
             return beginning_loan_balance, interest_expense, principal_payments, debt_service, ending_loan_balance
 
 
-st.title('Apartment Investment IRR Calculator')
+st.title('Apartment Investment')
 
 # Sidebar with sliders for each input parameter
 with st.sidebar.expander("Investment Inputs"):
