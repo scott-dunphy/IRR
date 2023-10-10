@@ -205,7 +205,7 @@ st.dataframe(df_reset_index[columns_to_display])
 st.subheader("Levered Metrics")
 data = {
     'Metric': ['Levered IRR', 'Levered Contributions', 'Levered Distributions', 'Levered Profit', 'Levered Investment Multiple'],
-    'Value': [f"{levered_irr * 100:.2f}%", f"${levered_contributions:,.2f}", f"${levered_distributions:,.2f}", f"${levered_profit:,.2f}", f"{levered_multiple:.2f}x"]
+    'Value': [f"{levered_irr * 100:.2f}%", f"${levered_contributions:,.0f}", f"${levered_distributions:,.0f}", f"${levered_profit:,.0f}", f"{levered_multiple:.2f}x"]
 }
 df = pd.DataFrame(data)
 
@@ -229,7 +229,7 @@ def currency_format(x):
     return x
 
 df = df.applymap(currency_format)
-df.rename(columns={'index':'Line Item'})
+df = df.rename(columns={'index':'Line Item'})
 
 st.write(df.T.reset_index())
 
