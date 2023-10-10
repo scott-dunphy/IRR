@@ -191,7 +191,7 @@ investment_irr, total_contributions, total_distributions, total_profit, investme
 # Create a DataFrame
 st.subheader("Unlevered Metrics")
 
-cap_rate = net_operating_income[0] / purchase_price
+cap_rate = cash_flows['Net Operating Income'][1] / purchase_price
 data = {
     'Metric': ['Year 1 Cap Rate','Unlevered IRR', 'Total Contributions', 'Total Distributions', 'Total Profit', 'Investment Multiple'],
     'Value': [f"{cap_rate * 100:.2f}%",f"{investment_irr * 100:.2f}%", f"(${total_contributions*-1:,.0f})", f"${total_distributions:,.0f}", f"${total_profit:,.0f}", f"{investment_multiple:.2f}x"]
