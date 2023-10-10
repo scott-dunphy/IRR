@@ -84,8 +84,21 @@ class ApartmentInvestment:
         levered_distributions = np.sum(final_cash_flows[net_cash_flow > 0])  # Sum of all positive cash flows (cash inflows)
         levered_profit = levered_distributions + levered_contributions  # Total profit (or loss if negative)
         levered_multiple = levered_distributions / abs(levered_contributions)  # Total distributions divided by total contributions
+
+        cash_flows = {
+                'Revenue':revenue.insert(0,0),
+                'Operating Expense':expenses.insert(0,0),
+                'Net Operating Income':net_operating_income.insert(0,0),
+                'Capital Expenditures':capex.insert(0,0),
+                'Cash Flow Before Debt Service':net_cash_flow,
+                'Debt Service':debt_service.insert(0,0),
+                'Cash Flow After Debt Service':ncf_after_debt,
+                'Net Cash Flows':final_cash_flows
+        }
+            
+            
         
-        return irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, levered_contributions, levered_distributions, levered_profit, levered_multiple
+        return irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, levered_contributions, levered_distributions, levered_profit, levered_multiple, cash_flows
 
     def calculate_debt_service(self):
             # Step 1: Calculate loan balance
@@ -123,7 +136,36 @@ class ApartmentInvestment:
                 # Step 8: Calculate ending loan balance
                 ending_loan_balance[year] = beginning_loan_balance[year] - principal_payments[year]
             
+            
+            
             return beginning_loan_balance, interest_expense, principal_payments, debt_service, ending_loan_balance
+
+
+    def render_mpl_table(data, col_width=3.0, row_height=0.625, font_size=12,
+                     header_color='#40466e', row_colors=['#f1f1f2', 'w'], edge_color='w',
+                     bbox=[0, 0, 1, 1], header_columns=0,
+                     ax=None, **kwargs):
+        if ax is None:
+            size = (np.array(data.shape[::-1]) + np.array([0, 1])) * np.array([col_width, row_height])
+            fig, ax = plt.subplots(figsize=size)
+            ax.axis('off')
+    
+        mpl_table = ax.table(cellText=data.values, bbox=bbox, colLabels=data.columns, **kwargs)
+    
+        mpl_table.auto_set_font_size(False)
+        mpl_table.set_fontsize(font_size)
+    
+        for k, cell in mpl_table._cells.items():
+            cell.set_edgecolor(edge_color)
+            if k[0] == 0:
+                cell.set_text_props(weight='bold', color='w')
+                cell.set_facecolor(header_color)
+            else:
+                cell.set_facecolor(row_colors[k[0] % len(row_colors)])
+        plt.show()
+    
+    render_mpl_table(df, header_columns=0, col_width=2.0)
+
 
 
 st.title('Apartment Investment')
@@ -154,7 +196,7 @@ investment = ApartmentInvestment(unit_count, purchase_price, market_rent_per_uni
                                 )
 
 # Calculate IRR and other metrics, then display results
-investment_irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, levered_contributions, levered_distributions, levered_profit, levered_multiple = investment.calculate_irr()
+investment_irr, total_contributions, total_distributions, total_profit, investment_multiple, levered_irr, levered_contributions, levered_distributions, levered_profit, levered_multiple, cash_flows = investment.calculate_irr()
 
 # Create a DataFrame
 st.subheader("Unlevered Metrics")
@@ -181,5 +223,10 @@ df = pd.DataFrame(data)
 df_reset_index = df.reset_index()
 columns_to_display = ['Metric', 'Value']
 st.dataframe(df_reset_index[columns_to_display])
+
+years = [f'Year {num}' for num in range(0,11)]
+cash_flows = cash_flows[:12]
+df = pd.DataFrame(cash_flows)
+render_mpl_table(df)
 
 
