@@ -103,7 +103,7 @@ class ApartmentInvestment:
                 'Operating Expense':list(expenses),
                 'Net Operating Income':list(net_operating_income),
                 'Capital Expenditures':list(capex),
-                'Cash Flow Before Debt Service':list(net_cash_flow),
+                #'Cash Flow Before Debt Service':list(net_cash_flow),
                 'Debt Service':list(debt_service),
                 #'Cash Flow After Debt Service':list(ncf_after_debt),
                 'Net Cash Flows':list(final_cash_flows)
@@ -165,7 +165,7 @@ with st.sidebar.expander("Investment Inputs"):
     unit_count = st.number_input('Unit Count', min_value=1, max_value=1000, value=100, step=1)
     purchase_price = st.slider('Purchase Price', min_value=10000000, max_value=100000000, value=25000000, step=1000000)
     market_rent_per_unit = st.slider('Market Rent per Unit', min_value=500, max_value=5000, value=2500, step=50)
-    rent_growth_per_year = st.slider('Rent Growth per Year (%)', min_value=0.0, max_value=10.0, value=3.0, step=0.25) / 100
+    rent_growth_per_year = st.slider('Revenue Growth per Year (%)', min_value=0.0, max_value=10.0, value=3.0, step=0.25) / 100
     year_1_expense_ratio = st.slider('Year 1 Expense Ratio (%)', min_value=0.0, max_value=100.0, value=50.0, step=1.0) / 100
     expense_growth_per_year = st.slider('Expense Growth per Year (%)', min_value=0.0, max_value=10.0, value=2.0, step=0.25) / 100
     capex_per_unit = st.slider('CAPEX per Unit', min_value=100, max_value=1000, value=250, step=50)
