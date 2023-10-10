@@ -227,8 +227,8 @@ st.dataframe(df_reset_index[columns_to_display])
 years = [f'Year {num}' for num in range(0,11)]
 data = {}
 for k,v in cash_flows.items():
-    print(k,v)
-    data[k] = v[:12]
+    if v is not None:
+        data[k] = v[:12]
 df = pd.DataFrame(data)
 render_mpl_table(df)
 
