@@ -229,6 +229,7 @@ def currency_format(x):
     return x
 
 df = df.applymap(currency_format)
+df.rename(columns={'index':'Line Item'})
 
 st.write(df.T.reset_index())
 
