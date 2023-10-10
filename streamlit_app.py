@@ -192,7 +192,7 @@ investment_irr, total_contributions, total_distributions, total_profit, investme
 st.subheader("Unlevered Metrics")
 data = {
     'Metric': ['Unlevered IRR', 'Total Contributions', 'Total Distributions', 'Total Profit', 'Investment Multiple'],
-    'Value': [f"{investment_irr * 100:.2f}%", f"${total_contributions:,.2f}", f"${total_distributions:,.2f}", f"${total_profit:,.2f}", f"{investment_multiple:.2f}x"]
+    'Value': [f"{investment_irr * 100:.2f}%", f"${(total_contributions:,.0f)}", f"${total_distributions:,.0f}", f"${total_profit:,.0f}", f"{investment_multiple:.2f}x"]
 }
 df = pd.DataFrame(data)
 
