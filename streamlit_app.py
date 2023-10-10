@@ -192,7 +192,7 @@ investment_irr, total_contributions, total_distributions, total_profit, investme
 st.subheader("Unlevered Metrics")
 data = {
     'Metric': ['Unlevered IRR', 'Total Contributions', 'Total Distributions', 'Total Profit', 'Investment Multiple'],
-    'Value': [f"{investment_irr * 100:.2f}%", f"$({total_contributions:,.0f})", f"${total_distributions:,.0f}", f"${total_profit:,.0f}", f"{investment_multiple:.2f}x"]
+    'Value': [f"{investment_irr * 100:.2f}%", f"$({total_contributions*-1:,.0f})", f"${total_distributions:,.0f}", f"${total_profit:,.0f}", f"{investment_multiple:.2f}x"]
 }
 df = pd.DataFrame(data)
 
@@ -205,7 +205,7 @@ st.dataframe(df_reset_index[columns_to_display])
 st.subheader("Levered Metrics")
 data = {
     'Metric': ['Levered IRR', 'Levered Contributions', 'Levered Distributions', 'Levered Profit', 'Levered Investment Multiple'],
-    'Value': [f"{levered_irr * 100:.2f}%", f"${levered_contributions:,.0f}", f"${levered_distributions:,.0f}", f"${levered_profit:,.0f}", f"{levered_multiple:.2f}x"]
+    'Value': [f"{levered_irr * 100:.2f}%", f"$({levered_contributions*-1:,.0f})", f"${levered_distributions:,.0f}", f"${levered_profit:,.0f}", f"{levered_multiple:.2f}x"]
 }
 df = pd.DataFrame(data)
 
