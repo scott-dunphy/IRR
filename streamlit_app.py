@@ -86,6 +86,12 @@ class ApartmentInvestment:
         levered_profit = levered_distributions + levered_contributions  # Total profit (or loss if negative)
         levered_multiple = levered_distributions / abs(levered_contributions)  # Total distributions divided by total contributions
 
+        revenue=list(revenue)
+        expenses = list(expenses)
+        net_operating_income = list(net_operating_income)
+        capex = list(capex)
+        debt_service = list(debt_service)
+        
         revenue.insert(0,0)
         expenses.insert(0,0)
         net_operating_income.insert(0,0)
