@@ -105,7 +105,7 @@ class ApartmentInvestment:
                 'Capital Expenditures':list(capex),
                 'Cash Flow Before Debt Service':list(net_cash_flow),
                 'Debt Service':list(debt_service),
-                'Cash Flow After Debt Service':list(ncf_after_debt),
+                #'Cash Flow After Debt Service':list(ncf_after_debt),
                 'Net Cash Flows':list(final_cash_flows)
         }
             
@@ -242,7 +242,7 @@ data = {}
 for k,v in cash_flows.items():
     if v is not None:
         data[k] = v[:11]
-st.write(cash_flows)
+
 df = pd.DataFrame(data)
 render_mpl_table(df)
 
