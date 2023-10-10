@@ -225,8 +225,10 @@ columns_to_display = ['Metric', 'Value']
 st.dataframe(df_reset_index[columns_to_display])
 
 years = [f'Year {num}' for num in range(0,11)]
-cash_flows = cash_flows[:12]
-df = pd.DataFrame(cash_flows)
+data = {}
+for k,v in cash_flows:
+    data[k] = v[:12]
+df = pd.DataFrame(data)
 render_mpl_table(df)
 
 
