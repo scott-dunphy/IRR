@@ -92,11 +92,11 @@ class ApartmentInvestment:
         capex = list(capex)
         debt_service = list(debt_service)
         
-        revenue.insert(0,0)
-        expenses.insert(0,0)
-        net_operating_income.insert(0,0)
-        capex.insert(0,0)
-        debt_service.insert(0,0)
+        #revenue.insert(0,0)
+        #expenses.insert(0,0)
+        #net_operating_income.insert(0,0)
+        #capex.insert(0,0)
+        #debt_service.insert(0,0)
         
         cash_flows = {
                 'Revenue':list(revenue),
