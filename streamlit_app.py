@@ -87,13 +87,13 @@ class ApartmentInvestment:
 
         cash_flows = {
                 'Revenue':list(revenue).insert(0,0),
-                'Operating Expense':expenses.insert(0,0),
-                'Net Operating Income':net_operating_income.insert(0,0),
-                'Capital Expenditures':capex.insert(0,0),
-                'Cash Flow Before Debt Service':net_cash_flow,
-                'Debt Service':debt_service.insert(0,0),
-                'Cash Flow After Debt Service':ncf_after_debt,
-                'Net Cash Flows':final_cash_flows
+                'Operating Expense':list(expenses).insert(0,0),
+                'Net Operating Income':list(net_operating_income).insert(0,0),
+                'Capital Expenditures':list(capex).insert(0,0),
+                'Cash Flow Before Debt Service':list(net_cash_flow),
+                'Debt Service':list(debt_service).insert(0,0),
+                'Cash Flow After Debt Service':list(ncf_after_debt),
+                'Net Cash Flows':list(final_cash_flows)
         }
             
             
