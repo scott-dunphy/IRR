@@ -241,7 +241,7 @@ years = [f'Year {num}' for num in range(0,11)]
 data = {}
 for k,v in cash_flows.items():
     if v is not None:
-        data[k] = v[:12]
+        data[k] = v[:11]
 st.write(cash_flows)
 df = pd.DataFrame(data)
 render_mpl_table(df)
