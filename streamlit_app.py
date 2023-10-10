@@ -86,7 +86,7 @@ class ApartmentInvestment:
         levered_multiple = levered_distributions / abs(levered_contributions)  # Total distributions divided by total contributions
 
         cash_flows = {
-                'Revenue':revenue.insert(0,0),
+                'Revenue':list(revenue).insert(0,0),
                 'Operating Expense':expenses.insert(0,0),
                 'Net Operating Income':net_operating_income.insert(0,0),
                 'Capital Expenditures':capex.insert(0,0),
