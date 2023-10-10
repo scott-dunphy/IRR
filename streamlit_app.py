@@ -2,6 +2,7 @@ import numpy as np
 import numpy_financial as npf
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
 
 class ApartmentInvestment:
     def __init__(self, unit_count, purchase_price, market_rent_per_unit, rent_growth_per_year, 
