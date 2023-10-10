@@ -164,7 +164,7 @@ class ApartmentInvestment:
                 cell.set_facecolor(row_colors[k[0] % len(row_colors)])
         plt.show()
     
-    render_mpl_table(df, header_columns=0, col_width=2.0)
+        return
 
 
 
