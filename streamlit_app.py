@@ -245,5 +245,6 @@ for k,v in cash_flows.items():
 
 df = pd.DataFrame(data)
 render_mpl_table(df)
+st.write(df)
 
 
