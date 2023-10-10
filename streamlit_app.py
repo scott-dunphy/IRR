@@ -222,6 +222,14 @@ for k,v in cash_flows.items():
 
 df = pd.DataFrame(data)
 df.index = years
+
+def currency_format(x):
+    if isinstance(x, (int, float)):
+        return "${:,.0f}".format(x)
+    return x
+
+df = df.applymap(currency_format)
+
 st.write(df.T.reset_index())
 
 
