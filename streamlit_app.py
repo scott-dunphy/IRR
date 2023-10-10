@@ -230,6 +230,7 @@ data = {}
 for k,v in cash_flows.items():
     if v is not None:
         data[k] = v[:12]
+st.write(data)
 df = pd.DataFrame(data)
 render_mpl_table(df)
 
